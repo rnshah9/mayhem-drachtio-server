@@ -2,7 +2,5 @@ project: rnshah9/mayhem-drachtio-server
 
 target: drachtio
 
-image: ghcr.io/rnshah9/mayhem-drachtio-server
-
 cmds:
   - cmd: ./drachtio -f @@
