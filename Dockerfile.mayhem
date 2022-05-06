@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:buster-slim as builder
 
 RUN apt-get update \
   && apt-get -y --quiet --force-yes upgrade \
@@ -25,10 +25,11 @@ RUN apt-get update \
   && cd /usr/local/bin \
   && rm -f timer ssltest parser uri_test test_https test_asio_curl
 
-COPY ./entrypoint.sh /
 
-VOLUME ["/config"]
+FROM debian:buster-slim
 
-ENTRYPOINT ["/entrypoint.sh"]
+RUN apt-get update \
+  && apt-get -y --quiet --force-yes upgrade \
+  && apt-get install -y --no-install-recommends  libcurl4-openssl-dev 
 
-CMD ["drachtio"]
+COPY --from=builder /usr/local/bin/drachtio /
